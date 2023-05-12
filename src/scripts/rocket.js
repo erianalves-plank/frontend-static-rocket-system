@@ -8,8 +8,41 @@ var path = window.location.pathname;
 var fileName = path.split('/').pop();
 var fileNameWithoutExtension = fileName.split('.')[0];
 
-
 let idSelected = null;
+
+function capitalizeFirstLetter(str) {
+  if (typeof str !== 'string' || str.length === 0) {
+    return str;
+  }
+
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function setDataAsContentToPage(data) {
+  let content = '';
+
+
+  for (let attribute in data) {
+    if (attribute === 'id')
+      continue;
+    if (Array.isArray(data[attribute])) {
+
+      content += `<p class="sub-item"><strong>${capitalizeFirstLetter(attribute)}</strong></p>`;
+
+      data[attribute].forEach(obj => {
+        for (let prop in obj) {
+          if (prop === 'id')
+            continue;
+          content += `<p class="sub-item"><strong>${capitalizeFirstLetter(prop)}:</strong> ${obj[prop]}</p>`;
+        }
+      });
+    } else {
+      content += `<p><strong>${capitalizeFirstLetter(attribute)}:</strong> ${data[attribute]}</p>`;
+    }
+  }
+  return content;
+}
+
 
 function addResourceToPage() {
   container.innerHTML = '';
@@ -19,18 +52,22 @@ function addResourceToPage() {
     .then(data => {
       data.forEach(resource => {
         let resourceDiv = document.createElement('div');
+        let divTitle = document.createElement('h3');
+        let contentDiv = document.createElement('div');
+
+        divTitle.textContent = 'Details';
+        divTitle.classList.add('title-div');
+
         resourceDiv.classList.add('flex-item');
-        resourceDiv.classList.add('flex-item-rocket');
         resourceDiv.dataset.id = resource.id;
 
-        let content = `<h3>${fileNameWithoutExtension} Details:</h3>`;
+        contentDiv.classList.add('flex-item-content');
 
-        for (let attribute in resource) {
-          content += `<p>${attribute}: ${resource[attribute]}</p>`;
-        }
-
-        resourceDiv.innerHTML = content;
+        contentDiv.innerHTML = setDataAsContentToPage(resource);
+        resourceDiv.appendChild(divTitle);
+        resourceDiv.appendChild(contentDiv);
         container.appendChild(resourceDiv);
+
       });
     })
     .catch(error => {

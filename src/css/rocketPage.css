@@ -52,7 +52,7 @@ main {
     flex-direction: column;
     align-items: center;
     margin: 5px 1px;
-    text-align: center;
+    text-align: start;
 }
 
 #rocket-div {
@@ -65,17 +65,16 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
     margin: 10px;
     /*  border: 4px  #231942; */
     border: 2px solid #be95c4;
     background: linear-gradient(to right, #be95c4, #e0b1cb, #be95c4);
-    padding: 0px 5px 0px 5px;
+    /*     padding: 0px 5px 0px 5px; */
+    padding: 4px;
     border-radius: 4px;
-}
+    width: 400px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
-.flex-item-rocket {
-    width: 300px;
 }
 
 .flex-item:hover {
@@ -87,15 +86,29 @@ main {
     border: 3px dashed #231942;
 }
 
-p {
-    /*     margin-top: 10px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap; */
-    max-width: 300px;
-    text-align: justify;
+.flex-item-content {
+    background-color: wheat;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: auto;
 }
 
+.flex-item-content p {
+    margin: 4px;
+}
+
+.title-sub-item {
+    padding-left: 15px;
+}
+
+.title-div {
+    margin-top: auto;
+    margin-bottom: auto;
+    border-bottom: 2px solid #5e60ce;
+    /* width: 100%; */
+}
 
 footer {
     text-align: center;

@@ -48,13 +48,13 @@ function operationOnResource(data, httpMethod, id = '') {
 
 addButton.addEventListener('click', () => {
 
-    titleModal.textContent = 'Create a new rocket';
+    titleModal.textContent = `Create a new ${fileNameWithoutExtension}`;
     messageStatus.textContent = '';
     modal.style.display = 'block';
 });
 
 editButton.addEventListener('click', () => {
-    titleModal.textContent = 'Update a rocket';
+    titleModal.textContent = `Update a ${fileNameWithoutExtension}`;
     messageStatus.textContent = '';
     modal.style.display = 'block';
 });
