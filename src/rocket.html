@@ -4,29 +4,48 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/rocketPage.css">
     <script src="./scripts/rocket.js" defer></script>
+    <script src="./scripts/add-modal.js" defer></script>
     <title>Finest Space Exploration Service</title>
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="#">Rocket</a></li>
-            <li><a href="#">Crewman</a></li>
-            <li><a href="#">Crew</a></li>
-            <li><a href="#">Launch</a> </li>
+            <li>Mining Rockets - Rockets Section</li>
+
+            <li><a href="./index.html">Back To Main Page</a> </li>
         </ul>
     </nav>
     
-    <main>
-        <button class="load">Check Resource</button>
-        
-        <div class="container initial-border">
-
+    <main class="container-rocket-page">
+        <button class="btn" id="load">Check Resource</button>
+        <div id="rocket-div">
+            
         </div>
+        <div class="btn-div">
 
+            <button class="btn" id="btn-add">Add</button>
+            <button class="btn" id="btn-edit">Edit</button>
+            <button class="btn" id="btn-delete">Delete</button>
+        </div>
     </main>
 
+    <div id="add-modal" class="modal">
+        <div class="modal-content">
+
+          <span class="close">&times;</span>
+          
+          <h2>Create a new rocket</h2>
+
+          <label for="nameInput">Name:</label>
+          <input type="text" id="nameInput">
+
+          <button id="btn-confirm">Confirm</button>
+          
+          <p class="operation-status"></p>
+        </div>
+      </div>
 
     <footer>
         <p> Copyright since 2023</p>
