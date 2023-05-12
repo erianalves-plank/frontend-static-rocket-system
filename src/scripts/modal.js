@@ -10,26 +10,26 @@ const titleModal = modal.querySelector('h2');
 const inputName = document.getElementById('nameInput');
 const confirmButton = document.getElementById('btn-confirm');
 
-const url_II = 'http://localhost:8080/rocket/'
+const url_II = 'http://localhost:8080/'
 
+var path = window.location.pathname;
+var fileName = path.split('/').pop();
+var fileNameWithoutExtension = fileName.split('.')[0];
 
 var containerII = document.getElementById('rocket-div');
 
 var idSelectedII = null;
 
-function operationOnRocket(rocketName, httpMethod, id = '') {
-    const postData = {
-        name: rocketName,
-    };
+function operationOnResource(data, httpMethod, id = '') {
     const options = {
         method: httpMethod,
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(postData),
+        body: JSON.stringify(data),
     };
 
-    fetch(url_II + id, options)
+    fetch(url_II + fileNameWithoutExtension + '/' + id, options)
         .then(response => {
             if (response.ok) {
                 return response.json();
@@ -47,6 +47,7 @@ function operationOnRocket(rocketName, httpMethod, id = '') {
 
 
 addButton.addEventListener('click', () => {
+
     titleModal.textContent = 'Create a new rocket';
     messageStatus.textContent = '';
     modal.style.display = 'block';
@@ -60,6 +61,8 @@ editButton.addEventListener('click', () => {
 
 closeBtn.addEventListener('click', () => {
     modal.style.display = 'none';
+    collectDataFromInputTags();
+
 });
 
 window.addEventListener('click', (event) => {
@@ -73,15 +76,46 @@ inputName.addEventListener('focus', () => {
     messageStatus.textContent = '';
 });
 
-function handleRocketOperation(method, id = '') {
-    const rocketName = inputName.value.trim();
+function collectDataFromInputTags() {
+    const modalContent = document.getElementById(`modal-content-${fileNameWithoutExtension}`);
+    var inputs = modalContent.getElementsByTagName('input');
+    console.log(inputs);
 
-    if (rocketName !== '') {
-        operationOnRocket(rocketName, method, id);
-        inputName.value = '';
-        messageStatus.textContent = (method === 'POST') ? 'Rocket created with success' : 'Rocket updated with success';
+    var data = {};
+
+    for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+        console.log('--> ' + input.name + ' ' + input.value);
+        var name = input.name;
+        var value = input.value.trim();
+        data[name] = value;
+        input.value = '';
+    }
+
+    console.log(data);
+    return data;
+}
+function checkContentAllInputs() {
+    const modalContent = document.getElementById(`modal-content-${fileNameWithoutExtension}`);
+    var inputs = modalContent.getElementsByTagName('input');
+
+    for (var i = 0; i < inputs.length; i++) {
+        var input = inputs[i];
+        if (input.value.trim() === '')
+            return false
+    }
+    return true;
+}
+
+
+function handleRocketOperation(method, id = '') {
+
+    if (checkContentAllInputs()) {
+        const data = collectDataFromInputTags();
+        operationOnResource(data, method, id);
+        messageStatus.textContent = (method === 'POST') ? `${fileNameWithoutExtension} created with success` : `${fileNameWithoutExtension} updated with success`;
     } else {
-        messageStatus.textContent = 'Please enter a valid name';
+        messageStatus.textContent = 'Please enter valid data in all fields';
     }
 }
 
